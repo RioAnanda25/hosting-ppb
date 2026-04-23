@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Mahasiswa</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Tambahan sedikit bayangan agar lebih manis */
+        }
+
+        th, td {
+            padding: 12px 15px; /* Sedikit dilebarkan agar lebih lega */
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background: #007bff;
+            color: white;
+        }
+
+        h2 {
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+<h2>Data Mahasiswa</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nama</th>
+            <th>NIM</th>
+            <th>Jurusan</th>
+        </tr>
+    </thead>
+    <tbody id="hasil">
+        <tr><td colspan="4">Memuat data...</td></tr>
+    </tbody>
+</table>
+
+<script>
+// MENGAMBIL DATA DARI FILE JSON STATIS
+fetch('api_mahasiswa.json')
+.then(response => {
+    // Mengecek apakah file berhasil ditemukan
+    if (!response.ok) {
+        throw new Error('Jaringan bermasalah atau file tidak ditemukan');
+    }
+    return response.json();
+})
+.then(data => {
+    let output = "";
+
+    // Melakukan perulangan untuk setiap data mahasiswa
+    data.forEach(item => {
+        output += `
+            <tr>
+                <td>${item.id}</td>
+                <td>${item.nama}</td>
+                <td>${item.nim}</td>
+                <td>${item.jurusan}</td>
+            </tr>
+        `;
+    });
+
+    // Menampilkan ke tabel
+    document.getElementById("hasil").innerHTML = output;
+})
+.catch(error => {
+    // Jika terjadi error (misal salah ketik nama file), tampilkan pesan error di tabel
+    console.error('Error:', error);
+    document.getElementById("hasil").innerHTML = `<tr><td colspan="4" style="color:red; text-align:center;">Gagal memuat data! Pastikan file api_mahasiswa.json sudah diupload.</td></tr>`;
+});
+</script>
+
+</body>
+</html>

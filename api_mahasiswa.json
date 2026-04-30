@@ -16,5 +16,11 @@
         "nama": "Ahmad Apriyansah",
         "nim": "240101031",
         "jurusan": "S1-Sistem Informasi"
+    },
+    {
+        "id": "4",
+        "nama": "joko",
+        "nim": "240101020",
+        "jurusan": "S1-Sistem Informasi"
     }
 ]

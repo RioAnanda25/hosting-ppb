@@ -10,5 +10,11 @@
         "nama": "Rio Ananda Saleh",
         "nim": "240101051",
         "jurusan": "S1-Sistem Informasi"
+    },
+    {
+           "id": "3",
+        "nama": "Ahmad Apriyansah",
+        "nim": "240101031",
+        "jurusan": "S1-Sistem Informasi"
     }
 ]

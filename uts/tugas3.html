@@ -35,11 +35,9 @@
         ])
         .then(([mhs, nilai]) => {
             let html = '';
-            // Pastikan nilai dikonversi ke array jika formatnya object
             const nilaiArray = Array.isArray(nilai) ? nilai : Object.values(nilai);
 
             nilaiArray.forEach(n => {
-                // Validasi: pastikan data nilai (n) ada dan mahasiswa terkait (mhs[id]) tersedia
                 if (n && n.mahasiswa_id && mhs[n.mahasiswa_id]) {
                     const m = mhs[n.mahasiswa_id];
                     html += `<tr>

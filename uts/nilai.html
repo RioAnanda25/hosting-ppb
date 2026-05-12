@@ -1,7 +1,27 @@
-<h2>Data Nilai</h2>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Nilai Mahasiswa</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 20px; }
+        h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        th { background-color: #007bff; color: white; text-align: left; padding: 12px; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
+        tr:hover { background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h2>Data Nilai</h2>
     <table>
         <thead>
-            <tr><th>ID</th><th>Mhs ID</th><th>Mata Kuliah</th><th>Nilai</th></tr>
+            <tr>
+                <th>ID</th>
+                <th>Mhs ID</th>
+                <th>Mata Kuliah</th>
+                <th>Nilai</th>
+            </tr>
         </thead>
         <tbody id="content"></tbody>
     </table>
@@ -11,9 +31,26 @@
             .then(res => res.json())
             .then(data => {
                 let html = '';
-                data.forEach(n => {
-                    if(n) html += `<tr><td>${n.id}</td><td>${n.mahasiswa_id}</td><td>${n.mata_kuliah}</td><td>${n.nilai}</td></tr>`;
+                // Transformasi data: konversi ke array jika Firebase mengirimkan format object
+                const dataArray = Array.isArray(data) ? data : Object.values(data);
+                
+                dataArray.forEach(n => {
+                    // Validasi: pastikan data 'n' tidak null sebelum merender baris
+                    if (n) { 
+                        html += `<tr>
+                            <td>${n.id}</td>
+                            <td>${n.mahasiswa_id}</td>
+                            <td>${n.mata_kuliah}</td>
+                            <td>${n.nilai}</td>
+                        </tr>`;
+                    }
                 });
                 document.getElementById('content').innerHTML = html;
+            })
+            .catch(err => {
+                console.error("Error Fetching Data:", err);
+                document.getElementById('content').innerHTML = '<tr><td colspan="4" style="text-align:center; color:red;">Gagal mengambil data dari API.</td></tr>';
             });
     </script>
+</body>
+</html>

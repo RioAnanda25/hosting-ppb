@@ -1,22 +1,65 @@
-<h2>Rata-rata Nilai Mahasiswa</h2>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Rata-rata Nilai Mahasiswa</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 20px; }
+        h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        th { background-color: #007bff; color: white; text-align: left; padding: 12px; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
+        tr:hover { background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h2>Rata-rata Nilai Mahasiswa</h2>
     <table>
         <thead>
-            <tr><th>NIM</th><th>Nama</th><th>Rata-rata Nilai</th></tr>
+            <tr>
+                <th>NIM</th>
+                <th>Nama</th>
+                <th>Rata-rata Nilai</th>
+            </tr>
         </thead>
         <tbody id="content"></tbody>
     </table>
 
     <script>
         const db = 'https://tugas-rio-default-rtdb.asia-southeast1.firebasedatabase.app/';
-        Promise.all([fetch(db+'mahasiswa.json'), fetch(db+'nilai.json')])
-            .then(responses => Promise.all(responses.map(r => r.json())))
-            .then(([mhs, nilai]) => {
-                let html = '';
+
+        Promise.all([
+            fetch(db + 'mahasiswa.json').then(res => res.json()),
+            fetch(db + 'nilai.json').then(res => res.json())
+        ])
+        .then(([mhs, nilai]) => {
+            let html = '';
+            
+            // Pastikan data mahasiswa tersedia
+            if (mhs) {
                 Object.keys(mhs).forEach(id => {
-                    const n_mhs = nilai.filter(n => n && n.mahasiswa_id == id);
-                    const rata = n_mhs.reduce((acc, curr) => acc + curr.nilai, 0) / n_mhs.length;
-                    html += `<tr><td>${mhs[id].nim}</td><td>${mhs[id].nama}</td><td>${rata.toFixed(2)}</td></tr>`;
+                    if (mhs[id]) {
+                        // Filter nilai berdasarkan ID mahasiswa, pastikan n tidak null
+                        const n_mhs = (nilai || []).filter(n => n && n.mahasiswa_id == id);
+                        
+                        // Hitung rata-rata, beri perlindungan jika jumlah data nilai adalah 0
+                        const total = n_mhs.reduce((acc, curr) => acc + (curr.nilai || 0), 0);
+                        const rata = n_mhs.length > 0 ? total / n_mhs.length : 0;
+
+                        html += `<tr>
+                            <td>${mhs[id].nim}</td>
+                            <td>${mhs[id].nama}</td>
+                            <td>${rata.toFixed(2)}</td>
+                        </tr>`;
+                    }
                 });
-                document.getElementById('content').innerHTML = html;
-            });
+            }
+            document.getElementById('content').innerHTML = html;
+        })
+        .catch(err => {
+            console.error("Error Fetch Data:", err);
+            document.getElementById('content').innerHTML = '<tr><td colspan="3" style="text-align:center;">Gagal memuat data rata-rata.</td></tr>';
+        });
     </script>
+</body>
+</html>

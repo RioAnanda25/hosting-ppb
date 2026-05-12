@@ -35,14 +35,11 @@
         .then(([mhs, nilai]) => {
             let html = '';
             
-            // Pastikan data mahasiswa tersedia
             if (mhs) {
                 Object.keys(mhs).forEach(id => {
                     if (mhs[id]) {
-                        // Filter nilai berdasarkan ID mahasiswa, pastikan n tidak null
                         const n_mhs = (nilai || []).filter(n => n && n.mahasiswa_id == id);
                         
-                        // Hitung rata-rata, beri perlindungan jika jumlah data nilai adalah 0
                         const total = n_mhs.reduce((acc, curr) => acc + (curr.nilai || 0), 0);
                         const rata = n_mhs.length > 0 ? total / n_mhs.length : 0;
 

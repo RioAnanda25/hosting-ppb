@@ -25,11 +25,9 @@
             .then(res => res.json())
             .then(data => {
                 let html = '';
-                // Pastikan data dikonversi ke array agar forEach lancar
                 const dataArray = Array.isArray(data) ? data : Object.values(data);
                 
                 dataArray.forEach(m => {
-                    // REVISI: Cek apakah data 'm' ada (tidak null) sebelum render
                     if (m && m.id) {
                         html += `<tr>
                             <td>${m.id}</td>

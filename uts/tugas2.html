@@ -31,11 +31,9 @@
             .then(res => res.json())
             .then(data => {
                 let html = '';
-                // Transformasi data: konversi ke array jika Firebase mengirimkan format object
                 const dataArray = Array.isArray(data) ? data : Object.values(data);
                 
                 dataArray.forEach(n => {
-                    // Validasi: pastikan data 'n' tidak null sebelum merender baris
                     if (n) { 
                         html += `<tr>
                             <td>${n.id}</td>

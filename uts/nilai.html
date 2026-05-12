@@ -1,0 +1,19 @@
+<h2>Data Nilai</h2>
+    <table>
+        <thead>
+            <tr><th>ID</th><th>Mhs ID</th><th>Mata Kuliah</th><th>Nilai</th></tr>
+        </thead>
+        <tbody id="content"></tbody>
+    </table>
+
+    <script>
+        fetch('https://tugas-rio-default-rtdb.asia-southeast1.firebasedatabase.app/nilai.json')
+            .then(res => res.json())
+            .then(data => {
+                let html = '';
+                data.forEach(n => {
+                    if(n) html += `<tr><td>${n.id}</td><td>${n.mahasiswa_id}</td><td>${n.mata_kuliah}</td><td>${n.nilai}</td></tr>`;
+                });
+                document.getElementById('content').innerHTML = html;
+            });
+    </script>

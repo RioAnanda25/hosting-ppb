@@ -1,0 +1,27 @@
+{
+  "mahasiswa": {
+    "1": { "id": 1, "nama": "Andi Saputra", "nim": "260103001", "jurusan": "S1-Teknik Informatika" },
+    "2": { "id": 2, "nama": "Budi Santoso", "nim": "260103002", "jurusan": "S1-Sistem Informasi" },
+    "3": { "id": 3, "nama": "Citra Lestari", "nim": "260103003", "jurusan": "S1-Teknik Informatika" },
+    "4": { "id": 4, "nama": "Dewi Anggraini", "nim": "260103004", "jurusan": "S1-Sistem Informasi" },
+    "5": { "id": 5, "nama": "Eko Prasetyo", "nim": "260103005", "jurusan": "S1-Teknik Informatika" },
+    "6": { "id": 6, "nama": "Fajar Hidayat", "nim": "260103006", "jurusan": "S1-Sistem Informasi" }
+  },
+  "nilai": [
+    { "id": 1, "mahasiswa_id": 1, "mata_kuliah": "Basis Data", "nilai": 90 },
+    { "id": 2, "mahasiswa_id": 1, "mata_kuliah": "Algoritma", "nilai": 85 },
+    { "id": 3, "mahasiswa_id": 1, "mata_kuliah": "Pemrograman Web", "nilai": 88 },
+    { "id": 4, "mahasiswa_id": 2, "mata_kuliah": "Basis Data", "nilai": 78 },
+    { "id": 5, "mahasiswa_id": 2, "mata_kuliah": "Algoritma", "nilai": 80 },
+    { "id": 6, "mahasiswa_id": 2, "mata_kuliah": "Manajemen Sistem", "nilai": 82 },
+    { "id": 7, "mahasiswa_id": 3, "mata_kuliah": "Basis Data", "nilai": 92 },
+    { "id": 8, "mahasiswa_id": 3, "mata_kuliah": "Algoritma", "nilai": 89 },
+    { "id": 9, "mahasiswa_id": 3, "mata_kuliah": "Pemrograman Web", "nilai": 91 },
+    { "id": 10, "mahasiswa_id": 4, "mata_kuliah": "Basis Data", "nilai": 75 },
+    { "id": 11, "mahasiswa_id": 4, "mata_kuliah": "Manajemen Sistem", "nilai": 77 },
+    { "id": 12, "mahasiswa_id": 5, "mata_kuliah": "Algoritma", "nilai": 84 },
+    { "id": 13, "mahasiswa_id": 5, "mata_kuliah": "Pemrograman Web", "nilai": 86 },
+    { "id": 14, "mahasiswa_id": 6, "mata_kuliah": "Basis Data", "nilai": 79 },
+    { "id": 15, "mahasiswa_id": 6, "mata_kuliah": "Manajemen Sistem", "nilai": 83 }
+  ]
+}

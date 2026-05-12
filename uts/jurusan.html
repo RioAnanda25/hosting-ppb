@@ -1,0 +1,21 @@
+<h2>Data Nilai: S1-Teknik Informatika</h2>
+    <table>
+        <thead>
+            <tr><th>NIM</th><th>Nama</th><th>Mata Kuliah</th><th>Nilai</th><th>Jurusan</th></tr>
+        </thead>
+        <tbody id="content"></tbody>
+    </table>
+
+    <script>
+        const db = 'https://tugas-rio-default-rtdb.asia-southeast1.firebasedatabase.app/';
+        Promise.all([fetch(db+'mahasiswa.json'), fetch(db+'nilai.json')])
+            .then(responses => Promise.all(responses.map(r => r.json())))
+            .then(([mhs, nilai]) => {
+                let html = '';
+                nilai.filter(n => n && mhs[n.mahasiswa_id].jurusan === 'S1-Teknik Informatika').forEach(n => {
+                    const m = mhs[n.mahasiswa_id];
+                    html += `<tr><td>${m.nim}</td><td>${m.nama}</td><td>${n.mata_kuliah}</td><td>${n.nilai}</td><td>${m.jurusan}</td></tr>`;
+                });
+                document.getElementById('content').innerHTML = html;
+            });
+    </script>

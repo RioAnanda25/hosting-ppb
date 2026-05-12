@@ -1,0 +1,22 @@
+<h2>Rata-rata Nilai Mahasiswa</h2>
+    <table>
+        <thead>
+            <tr><th>NIM</th><th>Nama</th><th>Rata-rata Nilai</th></tr>
+        </thead>
+        <tbody id="content"></tbody>
+    </table>
+
+    <script>
+        const db = 'https://tugas-rio-default-rtdb.asia-southeast1.firebasedatabase.app/';
+        Promise.all([fetch(db+'mahasiswa.json'), fetch(db+'nilai.json')])
+            .then(responses => Promise.all(responses.map(r => r.json())))
+            .then(([mhs, nilai]) => {
+                let html = '';
+                Object.keys(mhs).forEach(id => {
+                    const n_mhs = nilai.filter(n => n && n.mahasiswa_id == id);
+                    const rata = n_mhs.reduce((acc, curr) => acc + curr.nilai, 0) / n_mhs.length;
+                    html += `<tr><td>${mhs[id].nim}</td><td>${mhs[id].nama}</td><td>${rata.toFixed(2)}</td></tr>`;
+                });
+                document.getElementById('content').innerHTML = html;
+            });
+    </script>

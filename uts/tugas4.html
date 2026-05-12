@@ -5,14 +5,15 @@
     <title>Data Nilai Per Jurusan</title>
     <style>
         body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 20px; }
-        h2 { color: #333; }
-        table { width: 100%; border-collapse: collapse; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        h2 { color: #333; margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); margin-bottom: 20px; }
         th { background-color: #007bff; color: white; text-align: left; padding: 12px; }
         td { padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
         tr:hover { background-color: #f9f9f9; }
     </style>
 </head>
 <body>
+
     <h2>Data Nilai: S1-Teknik Informatika</h2>
     <table>
         <thead>
@@ -24,7 +25,21 @@
                 <th>Jurusan</th>
             </tr>
         </thead>
-        <tbody id="content"></tbody>
+        <tbody id="content-ti"></tbody>
+    </table>
+
+    <h2>Data Nilai: S1-Sistem Informasi</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>NIM</th>
+                <th>Nama</th>
+                <th>Mata Kuliah</th>
+                <th>Nilai</th>
+                <th>Jurusan</th>
+            </tr>
+        </thead>
+        <tbody id="content-si"></tbody>
     </table>
 
     <script>
@@ -35,28 +50,35 @@
             fetch(db + 'nilai.json').then(res => res.json())
         ])
         .then(([mhs, nilai]) => {
-            let html = '';
             const nilaiArray = Array.isArray(nilai) ? nilai : Object.values(nilai);
 
-            nilaiArray
-                .filter(n => n && mhs[n.mahasiswa_id] && mhs[n.mahasiswa_id].jurusan === 'S1-Teknik Informatika')
-                .forEach(n => {
-                    const m = mhs[n.mahasiswa_id];
-                    html += `<tr>
-                        <td>${m.nim}</td>
-                        <td>${m.nama}</td>
-                        <td>${n.mata_kuliah}</td>
-                        <td>${n.nilai}</td>
-                        <td>${m.jurusan}</td>
-                    </tr>`;
-                });
-            
-            const content = document.getElementById('content');
-            content.innerHTML = html !== '' ? html : '<tr><td colspan="5" style="text-align:center;">Data tidak ditemukan untuk jurusan ini.</td></tr>';
+            function renderTable(jurusan, elementId) {
+                let html = '';
+                nilaiArray
+                    .filter(n => n && mhs[n.mahasiswa_id] && mhs[n.mahasiswa_id].jurusan === jurusan)
+                    .forEach(n => {
+                        const m = mhs[n.mahasiswa_id];
+                        html += `<tr>
+                            <td>${m.nim}</td>
+                            <td>${m.nama}</td>
+                            <td>${n.mata_kuliah}</td>
+                            <td>${n.nilai}</td>
+                            <td>${m.jurusan}</td>
+                        </tr>`;
+                    });
+                
+                const content = document.getElementById(elementId);
+                content.innerHTML = html !== '' ? html : `<tr><td colspan="5" style="text-align:center;">Data tidak ditemukan untuk jurusan ${jurusan}.</td></tr>`;
+            }
+
+            renderTable('S1-Teknik Informatika', 'content-ti');
+            renderTable('S1-Sistem Informasi', 'content-si');
         })
         .catch(err => {
             console.error("Error Fetch Data:", err);
-            document.getElementById('content').innerHTML = '<tr><td colspan="5" style="text-align:center; color:red;">Gagal memuat data API.</td></tr>';
+            const errorMsg = '<tr><td colspan="5" style="text-align:center; color:red;">Gagal memuat data API.</td></tr>';
+            document.getElementById('content-ti').innerHTML = errorMsg;
+            document.getElementById('content-si').innerHTML = errorMsg;
         });
     </script>
 </body>

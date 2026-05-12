@@ -1,23 +1,61 @@
-<h2>Data Integrasi Nilai Mahasiswa</h2>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Data Integrasi Nilai Mahasiswa</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f4f4; margin: 20px; }
+        h2 { color: #333; }
+        table { width: 100%; border-collapse: collapse; background-color: #fff; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        th { background-color: #007bff; color: white; text-align: left; padding: 12px; }
+        td { padding: 12px; border-bottom: 1px solid #ddd; color: #333; }
+        tr:hover { background-color: #f9f9f9; }
+    </style>
+</head>
+<body>
+    <h2>Data Integrasi Nilai Mahasiswa</h2>
     <table>
         <thead>
-            <tr><th>NIM</th><th>Nama</th><th>Mata Kuliah</th><th>Nilai</th></tr>
+            <tr>
+                <th>NIM</th>
+                <th>Nama</th>
+                <th>Mata Kuliah</th>
+                <th>Nilai</th>
+            </tr>
         </thead>
         <tbody id="content"></tbody>
     </table>
 
     <script>
         const db = 'https://tugas-rio-default-rtdb.asia-southeast1.firebasedatabase.app/';
-        Promise.all([fetch(db+'mahasiswa.json'), fetch(db+'nilai.json')])
-            .then(responses => Promise.all(responses.map(r => r.json())))
-            .then(([mhs, nilai]) => {
-                let html = '';
-                nilai.forEach(n => {
-                    if(n) {
-                        const m = mhs[n.mahasiswa_id];
-                        html += `<tr><td>${m.nim}</td><td>${m.nama}</td><td>${n.mata_kuliah}</td><td>${n.nilai}</td></tr>`;
-                    }
-                });
-                document.getElementById('content').innerHTML = html;
+        
+        Promise.all([
+            fetch(db + 'mahasiswa.json').then(res => res.json()),
+            fetch(db + 'nilai.json').then(res => res.json())
+        ])
+        .then(([mhs, nilai]) => {
+            let html = '';
+            // Pastikan nilai dikonversi ke array jika formatnya object
+            const nilaiArray = Array.isArray(nilai) ? nilai : Object.values(nilai);
+
+            nilaiArray.forEach(n => {
+                // Validasi: pastikan data nilai (n) ada dan mahasiswa terkait (mhs[id]) tersedia
+                if (n && n.mahasiswa_id && mhs[n.mahasiswa_id]) {
+                    const m = mhs[n.mahasiswa_id];
+                    html += `<tr>
+                        <td>${m.nim}</td>
+                        <td>${m.nama}</td>
+                        <td>${n.mata_kuliah}</td>
+                        <td>${n.nilai}</td>
+                    </tr>`;
+                }
             });
+            document.getElementById('content').innerHTML = html;
+        })
+        .catch(err => {
+            console.error("Error Fetch Data:", err);
+            document.getElementById('content').innerHTML = '<tr><td colspan="4">Gagal memuat data integrasi.</td></tr>';
+        });
     </script>
+</body>
+</html>

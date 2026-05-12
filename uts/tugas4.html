@@ -36,10 +36,8 @@
         ])
         .then(([mhs, nilai]) => {
             let html = '';
-            // Mengonversi data nilai ke array jika formatnya object
             const nilaiArray = Array.isArray(nilai) ? nilai : Object.values(nilai);
 
-            // Filter data: pastikan data nilai ada, mahasiswa terkait ada, dan jurusan sesuai
             nilaiArray
                 .filter(n => n && mhs[n.mahasiswa_id] && mhs[n.mahasiswa_id].jurusan === 'S1-Teknik Informatika')
                 .forEach(n => {
